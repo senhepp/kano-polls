@@ -1,0 +1,139 @@
+/* Общие стили */
+
+/* ----------------------------------------------- */
+/* base */
+/* ----------------------------------------------- */
+
+
+html {
+    font-size: 0.5rem;
+    background: var(--light-light);
+}
+
+:root {
+    --light-light : #F4F4F4;
+    --header-grey : #252729;
+    --total-black : black;
+    --white       : white;
+    --main-family : 'Montserrat';
+    --large-weight  : 700;
+    --medium-weight  : 600;
+    --regular-weight : 400;
+    --regular-style: normal;
+    --main-title-size   : 2.5rem;
+    --title-size : 2rem;
+    --usual-size   : 1.5rem;
+    --base-height  : 2.5rem;
+}
+
+main {
+    background-color: var(--light-light);
+}
+body {
+    font-family: var(--main-family), sans-serif;
+    background: var(--light-light);
+    margin: 0;
+    padding: 0;
+}
+
+/* Блок опроса (карточка) */
+.poll {
+    background: white;
+    border-radius: 12px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    margin-bottom: 24px;
+}
+
+/* Внутренние отступы карточки */
+.margins {
+    padding: 1.25px;
+}
+
+/* Заголовок главной страницы */
+.main_title {
+    font-size: 1.5rem;
+    font-weight: var(--large-weight);
+    color: #2c3e50;
+    margin-top: 5rem;
+}
+
+/* Заголовок темы/вопроса */
+.title {
+    font-size: 1.25rem;
+    font-weight: 600;
+    font-style: var(--regular);
+    font-weight: var(--medium-weight);
+    margin-bottom: 2rem;
+    color: var(--header-grey);
+}
+
+/* Текст вопроса (при наличии/отсутствии) */
+.question-text {
+    font-size: 1rem;
+    margin-bottom: 12px;
+    color: #495057;
+}
+
+/* Блок с вариантами ответа */
+.function {
+    margin-bottom: 1.75rem;
+    padding-left: 0.75rem;
+    border-left: 0.25rem solid #007bff;
+}
+
+/* Контейнер для радиокнопки + метки */
+.form-check {
+    margin: 0.5rem 0;
+}
+
+/* Дополнительный отступ для текстового блока (если используется) */
+.text-div {
+    margin-bottom: 1rem;
+}
+
+/* Стили для заглушки неактивного опроса (можно вынести из poll.php) */
+.unavailable-card {
+    max-width: 37.5rem;
+    margin: 6.25rem auto;
+    text-align: center;
+    padding: 2.75rem;
+    border-radius: 1rem;
+    box-shadow: 0 0.25rem 1.75rem var(--total-black);
+    background: white;
+}
+.unavailable-card h1 {
+    color: #6c757d;
+    margin-bottom: 1.75rem;
+    font-size: 1.8rem;
+}
+.unavailable-card p {
+    color: var(--header-grey);
+    font-size: var(--usual-size);
+    margin-bottom: 1rem;
+}
+.unavailable-card .btn {
+    margin-top: 1.75rem;
+}
+
+/* Адаптивность для мобильных устройств */
+@media (max-width: 48rem) {
+    .margins {
+        padding: 1rem;
+    }
+    .main_title {
+        font-size: 1.25rem;
+    }
+    .title {
+        font-size: 1.1rem;
+    }
+    .question-text {
+        font-size: 0.9rem;
+    }
+    .function {
+        padding-left: 0.5rem;
+    }
+    .unavailable-card {
+        margin: 2.5rem 1.75rem;
+        padding: 1.75rem;
+    }
+}
