@@ -17,17 +17,22 @@ document.addEventListener('DOMContentLoaded', function() {
         const formData = new FormData(this);
         const questionBlocks = document.querySelectorAll('[data-question-id]');
         let missing = [];
+        
         questionBlocks.forEach(block => {
             const title = block.dataset.questionTitle;
             const qid = block.dataset.questionId;
             const presentSelected = block.querySelector(`input[name="answers[${qid}][present]"]:checked`);
             const absentSelected = block.querySelector(`input[name="answers[${qid}][absent]"]:checked`);
+            // Важность: ищем любую отмеченную радиокнопку с классом importance-radio внутри текущего блока
+            const importanceSelected = block.querySelector('.importance-radio:checked');
+            
             if (!presentSelected) missing.push(`«${title}» (при наличии)`);
             if (!absentSelected) missing.push(`«${title}» (при отсутствии)`);
+            if (!importanceSelected) missing.push(`«${title}» (важность)`);
         });
 
         if (missing.length > 0) {
-            statusDiv.innerHTML = `<div class="alert alert-danger">Пожалуйста, ответьте на все вопросы:<br>` + `${missing.join('<br>')}</div>`;
+            statusDiv.innerHTML = `<div class="alert alert-danger">Пожалуйста, расскажите про отношение к каждой функции:<br>` + missing.join('<br>') + `</div>`;
             return;
         }
 
@@ -37,17 +42,13 @@ document.addEventListener('DOMContentLoaded', function() {
                 body: formData
             });
             const result = await response.json();
-
-
             if (result.success) {
                 statusDiv.innerHTML = `<div class="alert alert-success">${result.message}</div>`;
-                setTimeout(() => {
-                    window.location.href = '../main/index.php';
-                }, 1000);
+                // Перенаправление на админ-панель (список опросов)
+                setTimeout(() => { window.location.href = '../admin/index.php'; }, 1500);
             } else {
                 statusDiv.innerHTML = `<div class="alert alert-danger">Ошибка: ${result.message}</div>`;
             }
-
         } catch (error) {
             console.error('Fetch error:', error);
             statusDiv.innerHTML = `<div class="alert alert-danger">Ошибка соединения: ${error.message}</div>`;

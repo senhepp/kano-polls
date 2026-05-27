@@ -17,7 +17,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['update_poll'])) {
     exit;
 }
 
-// Добавление вопроса
+
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['add_question'])) {
     $question_text = trim($_POST['question_text']);
     if ($question_text !== '') {
@@ -89,7 +89,7 @@ $questions = $questions->fetchAll();
     <hr>
     <h2>Вопросы (темы)</h2>
     <table class="table table-sm">
-        <thead><tr><th>ID</th><th>Текст вопроса</th><th>Действия</th></tr></thead>
+        <thead><tr><th>ID</th><th>Текст функции</th><th>Действия</th></tr></thead>
         <tbody>
         <?php foreach ($questions as $q): ?>
             <tr>
@@ -109,7 +109,7 @@ $questions = $questions->fetchAll();
         <?php endforeach; ?>
         </tbody>
     </table>
-    <h3>Добавить новый вопрос</h3>
+    <h3>Добавить новую функцию</h3>
     <form method="post">
         <input type="hidden" name="add_question" value="1">
         <div class="input-group">

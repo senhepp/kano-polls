@@ -3,7 +3,7 @@ require_once '../includes/auth.php';
 requireAdmin();
 require_once '../includes/db.php';
 
-// Удаление опроса (с каскадным удалением вопросов и ответов)
+// Удаление опроса
 if (isset($_GET['delete']) && is_numeric($_GET['delete'])) {
     $id = (int)$_GET['delete'];
     $stmt = $pdo->prepare("DELETE FROM polls WHERE id = ?");
@@ -40,7 +40,7 @@ $polls = $pdo->query("SELECT id, title, is_active FROM polls ORDER BY id DESC")-
                     <a href="edit_poll.php?id=<?= $poll['id'] ?>" class="btn btn-sm btn-primary">Редактировать</a>
                     <a href="results.php?id=<?= $poll['id'] ?>" class="btn btn-sm btn-info">Результаты</a>
                     <a href="../main/poll.php?id=<?= $poll['id'] ?>" class="btn btn-sm btn-secondary" target="_blank">Пройти опрос</a>
-                    <a href="?delete=<?= $poll['id'] ?>" class="btn btn-sm btn-danger" onclick="return confirm('Удалить опрос? Все вопросы и ответы будут удалены')">Удалить</a>
+                    <a href="?delete=<?= $poll['id'] ?>" class="btn btn-sm btn-danger" onclick="return confirm('Удалить опрос? Все функции и результаты по опросу будут удалены')">Удалить</a>
                 </td>
             </tr>
         <?php endforeach; ?>

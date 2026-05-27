@@ -3,20 +3,13 @@ require_once '../includes/db.php';
 require_once '../includes/functions.php';
 
 $poll_id = isset($_GET['id']) ? (int)$_GET['id'] : 0;
-if ($poll_id <= 0) {
-    die("Не указан ID опроса");
-}
+if ($poll_id <= 0) die("Не указан ID опроса");
 
-// Загружаем данные опроса
 $stmt = $pdo->prepare("SELECT id, title, description, is_active FROM polls WHERE id = :id");
 $stmt->execute([':id' => $poll_id]);
 $poll = $stmt->fetch(PDO::FETCH_ASSOC);
+if (!$poll) die("Опрос не найден");
 
-if (!$poll) {
-    die("Опрос не найден");
-}
-
-// Если опрос неактивен – показываем заглушку
 if (!$poll['is_active']) {
     ?>
     <!DOCTYPE html>
@@ -39,22 +32,15 @@ if (!$poll['is_active']) {
         </div>
     </body>
     </html>
-
-<?php
+    <?php
     exit;
 }
 
-// Если активен – показываем форму
-
-// Загружаем вопросы (темы)
 $stmt = $pdo->prepare("SELECT id, function_title FROM functions WHERE poll_id = :poll_id ORDER BY id");
 $stmt->execute([':poll_id' => $poll_id]);
 $questions = $stmt->fetchAll(PDO::FETCH_ASSOC);
-if (empty($questions)) {
-    die("В этом опросе нет вопросов");
-}
+if (empty($questions)) die("В этом опросе не задано ни одной функции");
 
-// Варианты ответов
 $options = $pdo->query("SELECT option_code, label_ru FROM answer_options ORDER BY id")->fetchAll(PDO::FETCH_KEY_PAIR);
 ?>
 <!DOCTYPE html>
@@ -105,6 +91,21 @@ $options = $pdo->query("SELECT option_code, label_ru FROM answer_options ORDER B
                                 <label for="q<?= $q['id'] ?>_absent_<?= $code ?>"><?= htmlspecialchars($label) ?></label>
                             </div>
                         <?php endforeach; ?>
+                    </div>
+
+                    <!-- Важность (добавлен класс importance-radio) -->
+                    <div class="function mt-3">
+                        <p class="question-text">Насколько вам важна эта функция? (0 — не важно, 10 — очень важно)</p>
+                        <div class="importance-group" style="display: flex; flex-wrap: wrap; gap: 10px;">
+                            <?php for ($i = 0; $i <= 10; $i++): ?>
+                                <div class="form-check form-check-inline">
+                                    <input class="form-check-input importance-radio" type="radio"
+                                           name="importance[<?= $q['id'] ?>]"
+                                           value="<?= $i ?>" id="imp_<?= $q['id'] ?>_<?= $i ?>">
+                                    <label class="form-check-label" for="imp_<?= $q['id'] ?>_<?= $i ?>"><?= $i ?></label>
+                                </div>
+                            <?php endfor; ?>
+                        </div>
                     </div>
                 </div>
             </div>

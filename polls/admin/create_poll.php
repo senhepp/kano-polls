@@ -61,9 +61,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             <textarea name="description" class="form-control" rows="3"></textarea>
         </div>
         <div class="mb-3">
-            <label>Вопросы (каждый с новой строки)</label>
+            <label>Функция (каждая с новой строки)</label>
             <textarea name="questions" class="form-control" rows="5" placeholder="Добавление контактных данных на страницу&#10;Внедрение системы уведомлений&#10;Доступ к материалам офлайн"></textarea>
-            <div class="form-text">Введите список тем (функций), которые будут оцениваться по шкале "при наличии / при отсутствии".</div>
+            <div class="form-text">Введите список функций, которые будут оцениваться по шкале "при наличии / при отсутствии".</div>
         </div>
         <div class="mb-3 form-check">
             <input type="checkbox" name="is_active" class="form-check-input" checked>
