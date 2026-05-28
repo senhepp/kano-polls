@@ -45,7 +45,7 @@ if (!empty($missing)) {
     exit;
 }
 
-// Валидация importance
+// Валидация importance (допустимые значения 1..5)
 if (!is_array($importance)) {
     echo json_encode(['success' => false, 'message' => 'Не указана важность функций']);
     exit;
@@ -53,11 +53,11 @@ if (!is_array($importance)) {
 $importanceErrors = [];
 foreach ($validQuestionIds as $qid) {
     if (!isset($importance[$qid])) {
-        $importanceErrors[] = "ID Функции $qid (важность не выбрана)";
+        $importanceErrors[] = "Вопрос ID $qid (важность не выбрана)";
     } else {
         $imp = (int)$importance[$qid];
-        if ($imp < 0 || $imp > 10) {
-            $importanceErrors[] = "ID Функции $qid (некорректное значение важности: $imp)";
+        if ($imp < 1 || $imp > 5) {
+            $importanceErrors[] = "Вопрос ID $qid (некорректное значение важности: $imp)";
         }
     }
 }
@@ -86,6 +86,7 @@ try {
         $presentCode = $answers[$questionId]['present'];
         $absentCode = $answers[$questionId]['absent'];
         $imp = (int)$importance[$questionId];
+        $imp_db = $imp / 5.0;  // преобразуем для хранения (0.2, 0.4, ..., 1.0)
 
         if (!isset($optionMap[$presentCode]) || !isset($optionMap[$absentCode])) {
             throw new Exception("Некорректный код ответа для функции $questionId");
@@ -98,7 +99,7 @@ try {
             ':answer_option_id' => $optionMap[$presentCode],
             ':session_id' => $sessionId,
             ':ip_address' => $ip,
-            ':importance' => $imp
+            ':importance' => $imp_db
         ]);
         $insertStmt->execute([
             ':poll_id' => $poll_id,
@@ -107,7 +108,7 @@ try {
             ':answer_option_id' => $optionMap[$absentCode],
             ':session_id' => $sessionId,
             ':ip_address' => $ip,
-            ':importance' => $imp
+            ':importance' => $imp_db
         ]);
     }
 

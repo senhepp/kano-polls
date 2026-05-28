@@ -93,11 +93,11 @@ $options = $pdo->query("SELECT option_code, label_ru FROM answer_options ORDER B
                         <?php endforeach; ?>
                     </div>
 
-                    <!-- Важность (добавлен класс importance-radio) -->
+                    <!-- Важность (шкала 1..5) -->
                     <div class="function mt-3">
-                        <p class="question-text">Насколько вам важна эта функция? (0 — не важно, 10 — очень важно)</p>
+                        <p class="question-text">Насколько вам важна эта функция? (1 — не важно, 5 — очень важно)</p>
                         <div class="importance-group" style="display: flex; flex-wrap: wrap; gap: 10px;">
-                            <?php for ($i = 0; $i <= 10; $i++): ?>
+                            <?php for ($i = 1; $i <= 5; $i++): ?>
                                 <div class="form-check form-check-inline">
                                     <input class="form-check-input importance-radio" type="radio"
                                            name="importance[<?= $q['id'] ?>]"
